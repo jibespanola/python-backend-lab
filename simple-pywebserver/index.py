@@ -3,6 +3,10 @@ import tornado.ioloop #thread that continously waits for requests
 import json
 import os
 
+class mainRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("index-main.html")
+
 class basicRequestHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello World! This is a Python command executed from the backend.")
@@ -13,6 +17,8 @@ class staticListRequestHandler(tornado.web.RequestHandler):
 
 #GET endpoint accepting query parameters
 class queryParamRequestHandler(tornado.web.RequestHandler):
+    '''
+    '''
     def get(self):
         num = self.get_argument("num") 
         if num.isdigit:
@@ -26,8 +32,14 @@ class resourceParamRequestHandler(tornado.web.RequestHandler):
     def get(self, studentName, courseId):
         self.write(f"Welcome {studentName}! the course you are viewing is {courseId}")
 
-#GET endpoint that queries files and returns JSON arrays
+
 class listRequestHandler(tornado.web.RequestHandler):
+    """
+    Contains two API endpoints
+    GET endpoint that queries files and returns JSON arrays
+    POST endpoint that creates entrypoint to the backend
+
+    """
     def get(self):
         print(f"Current working directory is {os.getcwd()}")
         fh = open("list.txt", "r")
@@ -35,7 +47,6 @@ class listRequestHandler(tornado.web.RequestHandler):
         fh.close()
         self.write(json.dumps(fruits))
 
-    #POST endpoint that creates entrypoint to the backend
     def post(self):
         fruit = self.get_argument("fruit") #query parameter
         print(f"Current working directory is {os.getcwd()}")
@@ -48,7 +59,8 @@ class listRequestHandler(tornado.web.RequestHandler):
 if __name__ == "__main__":
     #class Application expects tuples of endpoints
     app = tornado.web.Application([
-        (r"/", basicRequestHandler),
+        (r"/", mainRequestHandler),
+        (r"/hello", basicRequestHandler ),
         (r"/languages", staticListRequestHandler),
         (r"/isEven", queryParamRequestHandler),
         (r"/students/([a-z]+)/([0-9]+)", resourceParamRequestHandler),
