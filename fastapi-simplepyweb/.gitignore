@@ -1,1 +1,32 @@
-.vscode
+
+Summing up other answers
+
+Recommendation is to generally exclude .vscode folder, but leave select JSON files that allow other developers to recreate shared settings.
+
+Examples of settings to include:
+
+    Language specific test configurations to run the test suite(s) (settings.json)
+    Extension settings for linters and code formatting tools to enforce the language rules used in this repo (settings.json)
+    Run and debug configurations (launch.json)
+    Shared tasks - if managed with VS Code (tasks.json)
+
+Note that some settings can be stored in the user settings or workspace file, or transferred to it from the .vscode folder. See below.
+Sample .gitignore code
+
+Here are the settings, as suggested at https://gitignore.io. You can search for "VisualStudioCode" there to get the latest recommended .gitignore file. I use this website as a starting point for .gitignore for most of my new repos:
+
+# Created by https://www.gitignore.io/api/visualstudiocode
+# Edit at https://www.gitignore.io/?templates=visualstudiocode
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+**/.history
+
+# End of https://www.gitignore.io/api/visualstudiocode
